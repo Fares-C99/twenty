@@ -372,10 +372,22 @@ export class DevSeederMetadataService {
       objectMetadataId: objectMetadata.id,
     }));
 
-    await this.fieldMetadataService.createManyFields({
-      createFieldInputs,
-      workspaceId,
-    });
+    for (const createFieldInput of createFieldInputs) {
+      try {
+        await this.fieldMetadataService.createOneField({
+          createFieldInput,
+          workspaceId,
+        });
+      } catch (error) {
+        const fieldName = createFieldInput.name;
+
+        throw new Error(
+          `Failed seeding field "${objectMetadataNameSingular}.${fieldName}": ${
+            error instanceof Error ? error.message : String(error)
+          }`,
+        );
+      }
+    }
   }
 
   public async seedRelations({ workspaceId }: { workspaceId: string }) {
