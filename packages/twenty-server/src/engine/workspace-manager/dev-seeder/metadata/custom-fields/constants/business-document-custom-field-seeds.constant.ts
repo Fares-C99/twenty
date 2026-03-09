@@ -99,7 +99,7 @@ export const BUSINESS_DOCUMENT_CUSTOM_FIELD_SEEDS: FieldMetadataSeed[] = [
   },
   {
     type: FieldMetadataType.SELECT,
-    name: 'currency',
+    name: 'currencyCode',
     label: 'Currency',
     icon: 'IconCurrencyDollar',
     options: [
