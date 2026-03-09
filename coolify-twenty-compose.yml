@@ -2,6 +2,7 @@ name: twenty-stc
 
 services:
   server:
+    image: twenty-stc:local
     build:
       context: .
       dockerfile: ./packages/twenty-docker/twenty/Dockerfile
@@ -25,15 +26,14 @@ services:
         condition: service_healthy
     healthcheck:
       test: ["CMD-SHELL", "curl --fail http://localhost:3000/healthz || exit 1"]
-      interval: 5s
+      start_period: 600s
+      interval: 10s
       timeout: 5s
-      retries: 20
+      retries: 30
     restart: unless-stopped
 
   worker:
-    build:
-      context: .
-      dockerfile: ./packages/twenty-docker/twenty/Dockerfile
+    image: twenty-stc:local
     command: ["yarn", "worker:prod"]
     environment:
       PG_DATABASE_URL: postgres://${PG_DATABASE_USER:-postgres}:${PG_DATABASE_PASSWORD:-postgres}@db:5432/${PG_DATABASE_NAME:-default}
