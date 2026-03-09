@@ -14,6 +14,9 @@ describe('title-utils', () => {
     expect(getPageTitleFromPath('/invite/:workspaceInviteHash')).toBe('Invite');
     expect(getPageTitleFromPath('/create/workspace')).toBe('Create Workspace');
     expect(getPageTitleFromPath('/create/profile')).toBe('Create Profile');
+    expect(getPageTitleFromPath('/inbox')).toBe('Inbox');
+    expect(getPageTitleFromPath('/documents')).toBe('Documents');
+    expect(getPageTitleFromPath('/treasury')).toBe('Treasury');
     expect(getPageTitleFromPath('/settings/objects/opportunities')).toBe(
       'Data model - Settings',
     );

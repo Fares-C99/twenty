@@ -25,13 +25,26 @@ const Wrapper = ({ children }: { children: ReactNode }) =>
 const renderHooks = ({
   withCurrentUser,
   withExistingView,
+  withInboxObject = false,
 }: {
   withCurrentUser: boolean;
   withExistingView: boolean;
+  withInboxObject?: boolean;
 }) => {
+  const inboxObject = {
+    ...getMockObjectMetadataItemOrThrow('company'),
+    id: 'conversation-object-metadata-id',
+    nameSingular: 'conversation',
+    namePlural: 'conversations',
+    labelSingular: 'Conversation',
+    labelPlural: 'Conversations',
+  };
+
   jotaiStore.set(
     objectMetadataItemsState.atom,
-    generatedMockObjectMetadataItems,
+    withInboxObject
+      ? [inboxObject, ...generatedMockObjectMetadataItems]
+      : generatedMockObjectMetadataItems,
   );
 
   const { result } = renderHook(
@@ -92,6 +105,7 @@ describe('useDefaultHomePagePath', () => {
     const { result } = renderHooks({
       withCurrentUser: false,
       withExistingView: false,
+      withInboxObject: false,
     });
 
     await waitFor(() => {
@@ -102,6 +116,7 @@ describe('useDefaultHomePagePath', () => {
     const { result } = renderHooks({
       withCurrentUser: false,
       withExistingView: true,
+      withInboxObject: false,
     });
 
     await waitFor(() => {
@@ -112,6 +127,7 @@ describe('useDefaultHomePagePath', () => {
     const { result } = renderHooks({
       withCurrentUser: true,
       withExistingView: false,
+      withInboxObject: false,
     });
 
     await waitFor(() => {
@@ -122,12 +138,24 @@ describe('useDefaultHomePagePath', () => {
     const { result } = renderHooks({
       withCurrentUser: true,
       withExistingView: true,
+      withInboxObject: false,
     });
 
     await waitFor(() => {
       expect(result.current.defaultHomePagePath).toEqual(
         '/objects/companies?viewId=viewId',
       );
+    });
+  });
+  it('should prefer inbox when conversations are available', async () => {
+    const { result } = renderHooks({
+      withCurrentUser: true,
+      withExistingView: true,
+      withInboxObject: true,
+    });
+
+    await waitFor(() => {
+      expect(result.current.defaultHomePagePath).toEqual(AppPath.InboxPage);
     });
   });
 });

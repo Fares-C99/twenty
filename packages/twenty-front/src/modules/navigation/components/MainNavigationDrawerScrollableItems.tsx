@@ -3,6 +3,7 @@ import { NavigationDrawerWorkspaceSectionSkeletonLoader } from '@/object-metadat
 import { RemoteNavigationDrawerSection } from '@/object-metadata/components/RemoteNavigationDrawerSection';
 
 import { NavigationDrawerOtherSection } from '@/navigation/components/NavigationDrawerOtherSection';
+import { StcNavigationDrawerSection } from '@/navigation/components/StcNavigationDrawerSection';
 import { styled } from '@linaria/react';
 import { lazy, Suspense } from 'react';
 
@@ -34,6 +35,7 @@ export const MainNavigationDrawerScrollableItems = () => {
   return (
     <StyledScrollableItemsContainer>
       <NavigationDrawerOpenedSection />
+      <StcNavigationDrawerSection />
       <Suspense fallback={<NavigationDrawerWorkspaceSectionSkeletonLoader />}>
         <CurrentWorkspaceMemberNavigationMenuItemFoldersDispatcher />
         <WorkspaceNavigationMenuItemsDispatcher />

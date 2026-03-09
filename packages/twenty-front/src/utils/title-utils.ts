@@ -35,6 +35,12 @@ export const getPageTitleFromPath = (pathname: string): string => {
       return t`Create Workspace`;
     case AppPath.CreateProfile:
       return t`Create Profile`;
+    case AppPath.InboxPage:
+      return t`Inbox`;
+    case AppPath.DocumentsPage:
+      return t`Documents`;
+    case AppPath.TreasuryPage:
+      return t`Treasury`;
     case SettingsPathPrefixes.Experience:
       return t`Experience - Settings`;
     case SettingsPathPrefixes.Accounts:

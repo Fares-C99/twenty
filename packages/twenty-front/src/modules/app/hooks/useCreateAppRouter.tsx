@@ -94,6 +94,24 @@ const BookCall = lazy(() =>
   })),
 );
 
+const Inbox = lazy(() =>
+  import('~/pages/stc/Inbox').then((module) => ({
+    default: module.Inbox,
+  })),
+);
+
+const Documents = lazy(() =>
+  import('~/pages/stc/Documents').then((module) => ({
+    default: module.Documents,
+  })),
+);
+
+const Treasury = lazy(() =>
+  import('~/pages/stc/Treasury').then((module) => ({
+    default: module.Treasury,
+  })),
+);
+
 const NotFound = lazy(() =>
   import('~/pages/not-found/NotFound').then((module) => ({
     default: module.NotFound,
@@ -204,6 +222,30 @@ export const useCreateAppRouter = (
             }
           />
           <Route path={indexAppPath.getIndexAppPath()} element={<></>} />
+          <Route
+            path={AppPath.InboxPage}
+            element={
+              <LazyRoute>
+                <Inbox />
+              </LazyRoute>
+            }
+          />
+          <Route
+            path={AppPath.DocumentsPage}
+            element={
+              <LazyRoute>
+                <Documents />
+              </LazyRoute>
+            }
+          />
+          <Route
+            path={AppPath.TreasuryPage}
+            element={
+              <LazyRoute>
+                <Treasury />
+              </LazyRoute>
+            }
+          />
           <Route
             path={AppPath.RecordIndexPage}
             element={

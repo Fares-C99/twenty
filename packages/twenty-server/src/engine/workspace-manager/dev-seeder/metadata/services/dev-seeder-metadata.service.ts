@@ -16,17 +16,51 @@ import {
   SEED_APPLE_WORKSPACE_ID,
   SEED_YCOMBINATOR_WORKSPACE_ID,
 } from 'src/engine/workspace-manager/dev-seeder/core/constants/seeder-workspaces.constant';
+import { ATTACHMENT_CUSTOM_FIELD_SEEDS } from 'src/engine/workspace-manager/dev-seeder/metadata/custom-fields/constants/attachment-custom-field-seeds.constant';
+import { BANK_ACCOUNT_CUSTOM_FIELD_SEEDS } from 'src/engine/workspace-manager/dev-seeder/metadata/custom-fields/constants/bank-account-custom-field-seeds.constant';
+import { BUSINESS_DOCUMENT_CUSTOM_FIELD_SEEDS } from 'src/engine/workspace-manager/dev-seeder/metadata/custom-fields/constants/business-document-custom-field-seeds.constant';
+import { CHEQUE_CUSTOM_FIELD_SEEDS } from 'src/engine/workspace-manager/dev-seeder/metadata/custom-fields/constants/cheque-custom-field-seeds.constant';
 import { COMPANY_CUSTOM_FIELD_SEEDS } from 'src/engine/workspace-manager/dev-seeder/metadata/custom-fields/constants/company-custom-field-seeds.constant';
+import { COMPANY_STC_CUSTOM_FIELD_SEEDS } from 'src/engine/workspace-manager/dev-seeder/metadata/custom-fields/constants/company-stc-custom-field-seeds.constant';
+import { CONVERSATION_CUSTOM_FIELD_SEEDS } from 'src/engine/workspace-manager/dev-seeder/metadata/custom-fields/constants/conversation-custom-field-seeds.constant';
+import { DOCUMENT_LINE_CUSTOM_FIELD_SEEDS } from 'src/engine/workspace-manager/dev-seeder/metadata/custom-fields/constants/document-line-custom-field-seeds.constant';
+import { EMAIL_MESSAGE_CUSTOM_FIELD_SEEDS } from 'src/engine/workspace-manager/dev-seeder/metadata/custom-fields/constants/email-message-custom-field-seeds.constant';
 import { PERSON_CUSTOM_FIELD_SEEDS } from 'src/engine/workspace-manager/dev-seeder/metadata/custom-fields/constants/person-custom-field-seeds.constant';
 import { PET_CARE_AGREEMENT_CARETAKER_MORPH_SEED } from 'src/engine/workspace-manager/dev-seeder/metadata/custom-fields/constants/pet-care-agreement-custom-relation-field-seeds.constant';
 import { PET_CUSTOM_FIELD_SEEDS } from 'src/engine/workspace-manager/dev-seeder/metadata/custom-fields/constants/pet-custom-field-seeds.constant';
 import { PET_CUSTOM_RELATION_FIELD_SEEDS } from 'src/engine/workspace-manager/dev-seeder/metadata/custom-fields/constants/pet-custom-relation-field-seeds.constant';
+import { OPPORTUNITY_STC_CUSTOM_FIELD_SEEDS } from 'src/engine/workspace-manager/dev-seeder/metadata/custom-fields/constants/opportunity-stc-custom-field-seeds.constant';
+import { PAYMENT_CUSTOM_FIELD_SEEDS } from 'src/engine/workspace-manager/dev-seeder/metadata/custom-fields/constants/payment-custom-field-seeds.constant';
+import { REFERENCE_COUNTER_CUSTOM_FIELD_SEEDS } from 'src/engine/workspace-manager/dev-seeder/metadata/custom-fields/constants/reference-counter-custom-field-seeds.constant';
+import { SENDER_POLICY_CUSTOM_FIELD_SEEDS } from 'src/engine/workspace-manager/dev-seeder/metadata/custom-fields/constants/sender-policy-custom-field-seeds.constant';
+import {
+  STC_JUNCTION_CONFIGS,
+  STC_JUNCTION_FIELDS,
+  STC_MORPH_RELATIONS,
+} from 'src/engine/workspace-manager/dev-seeder/metadata/custom-fields/constants/stc-relation-seeds.constant';
 import { SURVEY_RESULT_CUSTOM_FIELD_SEEDS } from 'src/engine/workspace-manager/dev-seeder/metadata/custom-fields/constants/survey-results-field-seeds.constant';
+import { TIMELINE_EVENT_CUSTOM_FIELD_SEEDS } from 'src/engine/workspace-manager/dev-seeder/metadata/custom-fields/constants/timeline-event-custom-field-seeds.constant';
+import { TRAITE_CUSTOM_FIELD_SEEDS } from 'src/engine/workspace-manager/dev-seeder/metadata/custom-fields/constants/traite-custom-field-seeds.constant';
+import { UNSUBSCRIBE_ATTEMPT_CUSTOM_FIELD_SEEDS } from 'src/engine/workspace-manager/dev-seeder/metadata/custom-fields/constants/unsubscribe-attempt-custom-field-seeds.constant';
+import { ATTACHMENT_CUSTOM_OBJECT_SEED } from 'src/engine/workspace-manager/dev-seeder/metadata/custom-objects/constants/attachment-custom-object-seed.constant';
+import { BANK_ACCOUNT_CUSTOM_OBJECT_SEED } from 'src/engine/workspace-manager/dev-seeder/metadata/custom-objects/constants/bank-account-custom-object-seed.constant';
+import { BUSINESS_DOCUMENT_CUSTOM_OBJECT_SEED } from 'src/engine/workspace-manager/dev-seeder/metadata/custom-objects/constants/business-document-custom-object-seed.constant';
+import { CHEQUE_CUSTOM_OBJECT_SEED } from 'src/engine/workspace-manager/dev-seeder/metadata/custom-objects/constants/cheque-custom-object-seed.constant';
+import { CONVERSATION_CUSTOM_OBJECT_SEED } from 'src/engine/workspace-manager/dev-seeder/metadata/custom-objects/constants/conversation-custom-object-seed.constant';
+import { DEAL_CONVERSATION_CUSTOM_OBJECT_SEED } from 'src/engine/workspace-manager/dev-seeder/metadata/custom-objects/constants/deal-conversation-custom-object-seed.constant';
+import { DOCUMENT_LINE_CUSTOM_OBJECT_SEED } from 'src/engine/workspace-manager/dev-seeder/metadata/custom-objects/constants/document-line-custom-object-seed.constant';
+import { EMAIL_MESSAGE_CUSTOM_OBJECT_SEED } from 'src/engine/workspace-manager/dev-seeder/metadata/custom-objects/constants/email-message-custom-object-seed.constant';
 import { EMPLOYMENT_HISTORY_CUSTOM_OBJECT_SEED } from 'src/engine/workspace-manager/dev-seeder/metadata/custom-objects/constants/employment-history-custom-object-seed.constant';
+import { PAYMENT_CUSTOM_OBJECT_SEED } from 'src/engine/workspace-manager/dev-seeder/metadata/custom-objects/constants/payment-custom-object-seed.constant';
 import { PET_CARE_AGREEMENT_CUSTOM_OBJECT_SEED } from 'src/engine/workspace-manager/dev-seeder/metadata/custom-objects/constants/pet-care-agreement-custom-object-seed.constant';
 import { PET_CUSTOM_OBJECT_SEED } from 'src/engine/workspace-manager/dev-seeder/metadata/custom-objects/constants/pet-custom-object-seed.constant';
+import { REFERENCE_COUNTER_CUSTOM_OBJECT_SEED } from 'src/engine/workspace-manager/dev-seeder/metadata/custom-objects/constants/reference-counter-custom-object-seed.constant';
 import { ROCKET_CUSTOM_OBJECT_SEED } from 'src/engine/workspace-manager/dev-seeder/metadata/custom-objects/constants/rocket-custom-object-seed.constant';
+import { SENDER_POLICY_CUSTOM_OBJECT_SEED } from 'src/engine/workspace-manager/dev-seeder/metadata/custom-objects/constants/sender-policy-custom-object-seed.constant';
 import { SURVEY_RESULT_CUSTOM_OBJECT_SEED } from 'src/engine/workspace-manager/dev-seeder/metadata/custom-objects/constants/survey-results-object-seed.constant';
+import { TIMELINE_EVENT_CUSTOM_OBJECT_SEED } from 'src/engine/workspace-manager/dev-seeder/metadata/custom-objects/constants/timeline-event-custom-object-seed.constant';
+import { TRAITE_CUSTOM_OBJECT_SEED } from 'src/engine/workspace-manager/dev-seeder/metadata/custom-objects/constants/traite-custom-object-seed.constant';
+import { UNSUBSCRIBE_ATTEMPT_CUSTOM_OBJECT_SEED } from 'src/engine/workspace-manager/dev-seeder/metadata/custom-objects/constants/unsubscribe-attempt-custom-object-seed.constant';
 import { type FieldMetadataSeed } from 'src/engine/workspace-manager/dev-seeder/metadata/types/field-metadata-seed.type';
 import { type ObjectMetadataSeed } from 'src/engine/workspace-manager/dev-seeder/metadata/types/object-metadata-seed.type';
 
@@ -57,6 +91,85 @@ type FlatMaps = {
   objectIdByName: Record<string, string>;
 };
 
+type WorkspaceMetadataConfig = {
+  objects: { seed: ObjectMetadataSeed; fields?: FieldMetadataSeed[] }[];
+  fields: { objectName: string; seeds: FieldMetadataSeed[] }[];
+  morphRelations?: { objectName: string; seeds: MorphRelationSeed[] }[];
+  // Junction fields create relations to junction objects (inverses auto-created)
+  junctionFields?: JunctionFieldSeed[];
+  // Configure junction settings on fields after all relations exist
+  junctionConfigs?: JunctionConfigSeed[];
+};
+
+const STC_OBJECTS: WorkspaceMetadataConfig['objects'] = [
+  {
+    seed: CONVERSATION_CUSTOM_OBJECT_SEED,
+    fields: CONVERSATION_CUSTOM_FIELD_SEEDS,
+  },
+  {
+    seed: EMAIL_MESSAGE_CUSTOM_OBJECT_SEED,
+    fields: EMAIL_MESSAGE_CUSTOM_FIELD_SEEDS,
+  },
+  {
+    seed: ATTACHMENT_CUSTOM_OBJECT_SEED,
+    fields: ATTACHMENT_CUSTOM_FIELD_SEEDS,
+  },
+  {
+    seed: DEAL_CONVERSATION_CUSTOM_OBJECT_SEED,
+  },
+  {
+    seed: BUSINESS_DOCUMENT_CUSTOM_OBJECT_SEED,
+    fields: BUSINESS_DOCUMENT_CUSTOM_FIELD_SEEDS,
+  },
+  {
+    seed: DOCUMENT_LINE_CUSTOM_OBJECT_SEED,
+    fields: DOCUMENT_LINE_CUSTOM_FIELD_SEEDS,
+  },
+  {
+    seed: REFERENCE_COUNTER_CUSTOM_OBJECT_SEED,
+    fields: REFERENCE_COUNTER_CUSTOM_FIELD_SEEDS,
+  },
+  {
+    seed: PAYMENT_CUSTOM_OBJECT_SEED,
+    fields: PAYMENT_CUSTOM_FIELD_SEEDS,
+  },
+  {
+    seed: CHEQUE_CUSTOM_OBJECT_SEED,
+    fields: CHEQUE_CUSTOM_FIELD_SEEDS,
+  },
+  {
+    seed: TRAITE_CUSTOM_OBJECT_SEED,
+    fields: TRAITE_CUSTOM_FIELD_SEEDS,
+  },
+  {
+    seed: BANK_ACCOUNT_CUSTOM_OBJECT_SEED,
+    fields: BANK_ACCOUNT_CUSTOM_FIELD_SEEDS,
+  },
+  {
+    seed: SENDER_POLICY_CUSTOM_OBJECT_SEED,
+    fields: SENDER_POLICY_CUSTOM_FIELD_SEEDS,
+  },
+  {
+    seed: UNSUBSCRIBE_ATTEMPT_CUSTOM_OBJECT_SEED,
+    fields: UNSUBSCRIBE_ATTEMPT_CUSTOM_FIELD_SEEDS,
+  },
+  {
+    seed: TIMELINE_EVENT_CUSTOM_OBJECT_SEED,
+    fields: TIMELINE_EVENT_CUSTOM_FIELD_SEEDS,
+  },
+];
+
+const STC_FIELDS: WorkspaceMetadataConfig['fields'] = [
+  {
+    objectName: 'company',
+    seeds: COMPANY_STC_CUSTOM_FIELD_SEEDS,
+  },
+  {
+    objectName: 'opportunity',
+    seeds: OPPORTUNITY_STC_CUSTOM_FIELD_SEEDS,
+  },
+];
+
 @Injectable()
 export class DevSeederMetadataService {
   constructor(
@@ -65,18 +178,7 @@ export class DevSeederMetadataService {
     private readonly flatEntityMapsCacheService: WorkspaceManyOrAllFlatEntityMapsCacheService,
   ) {}
 
-  private readonly workspaceConfigs: Record<
-    string,
-    {
-      objects: { seed: ObjectMetadataSeed; fields?: FieldMetadataSeed[] }[];
-      fields: { objectName: string; seeds: FieldMetadataSeed[] }[];
-      morphRelations?: { objectName: string; seeds: MorphRelationSeed[] }[];
-      // Junction fields create relations to junction objects (inverses auto-created)
-      junctionFields?: JunctionFieldSeed[];
-      // Configure junction settings on fields after all relations exist
-      junctionConfigs?: JunctionConfigSeed[];
-    }
-  > = {
+  private readonly workspaceConfigs: Record<string, WorkspaceMetadataConfig> = {
     [SEED_APPLE_WORKSPACE_ID]: {
       objects: [
         { seed: ROCKET_CUSTOM_OBJECT_SEED },
@@ -88,10 +190,12 @@ export class DevSeederMetadataService {
         // Junction objects (minimal pivots)
         { seed: EMPLOYMENT_HISTORY_CUSTOM_OBJECT_SEED },
         { seed: PET_CARE_AGREEMENT_CUSTOM_OBJECT_SEED },
+        ...STC_OBJECTS,
       ],
       fields: [
         { objectName: 'company', seeds: COMPANY_CUSTOM_FIELD_SEEDS },
         { objectName: 'person', seeds: PERSON_CUSTOM_FIELD_SEEDS },
+        ...STC_FIELDS,
       ],
       morphRelations: [
         {
@@ -102,6 +206,7 @@ export class DevSeederMetadataService {
           objectName: PET_CARE_AGREEMENT_CUSTOM_OBJECT_SEED.nameSingular,
           seeds: [PET_CARE_AGREEMENT_CARETAKER_MORPH_SEED],
         },
+        ...STC_MORPH_RELATIONS,
       ],
       junctionFields: [
         // Employment History: Person <-> Company
@@ -133,6 +238,7 @@ export class DevSeederMetadataService {
           targetFieldLabel: 'Pet',
           targetFieldIcon: 'IconCat',
         },
+        ...STC_JUNCTION_FIELDS,
       ],
       junctionConfigs: [
         // Employment History junction configs
@@ -162,6 +268,7 @@ export class DevSeederMetadataService {
           fieldName: 'caredForPets',
           junctionTargetFieldRef: `${PET_CARE_AGREEMENT_CUSTOM_OBJECT_SEED.nameSingular}.pet`,
         },
+        ...STC_JUNCTION_CONFIGS,
       ],
     },
     [SEED_YCOMBINATOR_WORKSPACE_ID]: {
@@ -170,11 +277,16 @@ export class DevSeederMetadataService {
           seed: SURVEY_RESULT_CUSTOM_OBJECT_SEED,
           fields: SURVEY_RESULT_CUSTOM_FIELD_SEEDS,
         },
+        ...STC_OBJECTS,
       ],
       fields: [
         { objectName: 'company', seeds: COMPANY_CUSTOM_FIELD_SEEDS },
         { objectName: 'person', seeds: PERSON_CUSTOM_FIELD_SEEDS },
+        ...STC_FIELDS,
       ],
+      morphRelations: STC_MORPH_RELATIONS,
+      junctionFields: STC_JUNCTION_FIELDS,
+      junctionConfigs: STC_JUNCTION_CONFIGS,
     },
   };
 
