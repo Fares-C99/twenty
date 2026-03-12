@@ -1,5 +1,6 @@
 import { DASHBOARD_ACTIONS_CONFIG } from '@/action-menu/actions/record-actions/constants/DashboardActionsConfig';
 import { DEFAULT_RECORD_ACTIONS_CONFIG } from '@/action-menu/actions/record-actions/constants/DefaultRecordActionsConfig';
+import { STC_EMAIL_MESSAGE_ACTIONS_CONFIG } from '@/action-menu/actions/record-actions/constants/StcEmailMessageActionsConfig';
 import { WORKFLOW_ACTIONS_CONFIG } from '@/action-menu/actions/record-actions/constants/WorkflowActionsConfig';
 import { WORKFLOW_RUNS_ACTIONS_CONFIG } from '@/action-menu/actions/record-actions/constants/WorkflowRunsActionsConfig';
 import { WORKFLOW_VERSIONS_ACTIONS_CONFIG } from '@/action-menu/actions/record-actions/constants/WorkflowVersionsActionsConfig';
@@ -36,6 +37,9 @@ export const getActionConfig = ({
     }
     case CoreObjectNameSingular.Company: {
       return DEFAULT_RECORD_ACTIONS_CONFIG;
+    }
+    case 'emailMessage': {
+      return STC_EMAIL_MESSAGE_ACTIONS_CONFIG;
     }
     default: {
       return DEFAULT_RECORD_ACTIONS_CONFIG;

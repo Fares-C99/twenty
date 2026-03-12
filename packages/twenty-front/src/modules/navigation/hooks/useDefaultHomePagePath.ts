@@ -102,7 +102,7 @@ export const useDefaultHomePagePath = () => {
 
     const hasReadableInboxObject =
       readableAlphaSortedActiveNonSystemObjectMetadataItems.some(
-        (item) => item.namePlural === 'conversations',
+        (item) => item.namePlural === 'emailMessages',
       );
 
     if (hasReadableInboxObject) {

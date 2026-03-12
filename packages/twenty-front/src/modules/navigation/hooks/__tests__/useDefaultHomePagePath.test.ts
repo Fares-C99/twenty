@@ -33,11 +33,11 @@ const renderHooks = ({
 }) => {
   const inboxObject = {
     ...getMockObjectMetadataItemOrThrow('company'),
-    id: 'conversation-object-metadata-id',
-    nameSingular: 'conversation',
-    namePlural: 'conversations',
-    labelSingular: 'Conversation',
-    labelPlural: 'Conversations',
+    id: 'email-message-object-metadata-id',
+    nameSingular: 'emailMessage',
+    namePlural: 'emailMessages',
+    labelSingular: 'Email Message',
+    labelPlural: 'Email Messages',
   };
 
   jotaiStore.set(
@@ -147,7 +147,7 @@ describe('useDefaultHomePagePath', () => {
       );
     });
   });
-  it('should prefer inbox when conversations are available', async () => {
+  it('should prefer inbox when email messages are available', async () => {
     const { result } = renderHooks({
       withCurrentUser: true,
       withExistingView: true,

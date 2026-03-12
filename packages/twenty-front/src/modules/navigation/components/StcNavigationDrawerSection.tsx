@@ -27,12 +27,12 @@ export const StcNavigationDrawerSection = () => {
   const { isNavigationSectionOpen, toggleNavigationSection } =
     useNavigationSection(STC_NAVIGATION_SECTION_ID);
 
-  const conversationsObjectMetadataItem =
-    findActiveObjectMetadataItemByNamePlural('conversations');
+  const emailMessagesObjectMetadataItem =
+    findActiveObjectMetadataItemByNamePlural('emailMessages');
   const opportunitiesObjectMetadataItem =
     findActiveObjectMetadataItemByNamePlural('opportunities');
 
-  if (!isDefined(conversationsObjectMetadataItem)) {
+  if (!isDefined(emailMessagesObjectMetadataItem)) {
     return null;
   }
 
@@ -67,18 +67,13 @@ export const StcNavigationDrawerSection = () => {
           label={t`Inbox`}
           to={AppPath.InboxPage}
           Icon={IconInbox}
-          active={location.pathname === AppPath.InboxPage}
-        />
-        <NavigationDrawerItem
-          label={conversationsObjectMetadataItem.labelPlural}
-          to={getAppPath(AppPath.RecordIndexPage, {
-            objectNamePlural: conversationsObjectMetadataItem.namePlural,
-          })}
-          Icon={getIcon(conversationsObjectMetadataItem.icon)}
-          active={isObjectRouteActive({
-            objectNamePlural: conversationsObjectMetadataItem.namePlural,
-            objectNameSingular: conversationsObjectMetadataItem.nameSingular,
-          })}
+          active={
+            location.pathname === AppPath.InboxPage ||
+            isObjectRouteActive({
+              objectNamePlural: emailMessagesObjectMetadataItem.namePlural,
+              objectNameSingular: emailMessagesObjectMetadataItem.nameSingular,
+            })
+          }
         />
         {isDefined(opportunitiesObjectMetadataItem) && (
           <NavigationDrawerItem

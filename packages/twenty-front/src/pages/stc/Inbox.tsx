@@ -1,16 +1,36 @@
 import { t } from '@lingui/core/macro';
+import { Navigate } from 'react-router-dom';
+import { useFilteredObjectMetadataItems } from '@/object-metadata/hooks/useFilteredObjectMetadataItems';
+import { AppPath } from 'twenty-shared/types';
+import { getAppPath } from 'twenty-shared/utils';
 import {
   IconInbox,
   IconMail,
   IconMailCog,
   IconMailX,
-  IconMessage,
   IconPaperclip,
 } from 'twenty-ui/display';
 
 import { StcModulePage } from './components/StcModulePage';
 
 export const Inbox = () => {
+  const { findActiveObjectMetadataItemByNamePlural } =
+    useFilteredObjectMetadataItems();
+
+  const emailMessagesObjectMetadataItem =
+    findActiveObjectMetadataItemByNamePlural('emailMessages');
+
+  if (emailMessagesObjectMetadataItem) {
+    return (
+      <Navigate
+        replace
+        to={getAppPath(AppPath.RecordIndexPage, {
+          objectNamePlural: emailMessagesObjectMetadataItem.namePlural,
+        })}
+      />
+    );
+  }
+
   return (
     <StcModulePage
       title={t`Inbox`}
@@ -18,25 +38,19 @@ export const Inbox = () => {
       Icon={IconInbox}
       sections={[
         {
-          title: t`Communications`,
-          description: t`Review message flows and related records from the seeded STC workspace objects.`,
+          title: t`Messages`,
+          description: t`Work from individual emails first, then branch into documents and downstream records when needed.`,
           links: [
-            {
-              objectNamePlural: 'conversations',
-              fallbackLabel: t`Conversations`,
-              description: t`Track conversation threads across the workspace.`,
-              Icon: IconMessage,
-            },
             {
               objectNamePlural: 'emailMessages',
               fallbackLabel: t`Email Messages`,
-              description: t`Inspect imported or generated email messages.`,
+              description: t`Review inbound and outbound messages in the native record view.`,
               Icon: IconMail,
             },
             {
               objectNamePlural: 'stcAttachments',
               fallbackLabel: t`Attachments`,
-              description: t`Browse communication files and linked artifacts.`,
+              description: t`Browse files received or sent with each email.`,
               Icon: IconPaperclip,
             },
           ],
