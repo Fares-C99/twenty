@@ -2,10 +2,8 @@ name: twenty-stc
 
 services:
   server:
-    image: twenty-stc:local
-    build:
-      context: .
-      dockerfile: ./packages/twenty-docker/twenty/Dockerfile
+    image: ${TWENTY_IMAGE:-ghcr.io/fares-c99/twenty-stc:stc-main}
+    pull_policy: always
     environment:
       NODE_PORT: 3000
       PORT: 3000
@@ -33,7 +31,8 @@ services:
     restart: unless-stopped
 
   worker:
-    image: twenty-stc:local
+    image: ${TWENTY_IMAGE:-ghcr.io/fares-c99/twenty-stc:stc-main}
+    pull_policy: always
     command: ["yarn", "worker:prod"]
     environment:
       PG_DATABASE_URL: postgres://${PG_DATABASE_USER:-postgres}:${PG_DATABASE_PASSWORD:-postgres}@db:5432/${PG_DATABASE_NAME:-default}
