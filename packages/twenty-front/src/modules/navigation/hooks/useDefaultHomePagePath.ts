@@ -100,15 +100,6 @@ export const useDefaultHomePagePath = () => {
       return AppPath.SignInUp;
     }
 
-    const hasReadableInboxObject =
-      readableAlphaSortedActiveNonSystemObjectMetadataItems.some(
-        (item) => item.namePlural === 'emailMessages',
-      );
-
-    if (hasReadableInboxObject) {
-      return AppPath.InboxPage;
-    }
-
     if (isEmpty(readableAlphaSortedActiveNonSystemObjectMetadataItems)) {
       return getSettingsPath(SettingsPath.ProfilePage);
     }

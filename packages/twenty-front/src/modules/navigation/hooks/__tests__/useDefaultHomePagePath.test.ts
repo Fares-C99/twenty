@@ -147,7 +147,7 @@ describe('useDefaultHomePagePath', () => {
       );
     });
   });
-  it('should prefer inbox when email messages are available', async () => {
+  it('should keep the standard default path when email messages are available', async () => {
     const { result } = renderHooks({
       withCurrentUser: true,
       withExistingView: true,
@@ -155,7 +155,9 @@ describe('useDefaultHomePagePath', () => {
     });
 
     await waitFor(() => {
-      expect(result.current.defaultHomePagePath).toEqual(AppPath.InboxPage);
+      expect(result.current.defaultHomePagePath).toEqual(
+        '/objects/companies?viewId=viewId',
+      );
     });
   });
 });
