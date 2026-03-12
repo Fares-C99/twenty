@@ -4,7 +4,7 @@ import { ActionScope } from '@/action-menu/actions/types/ActionScope';
 import { ActionType } from '@/action-menu/actions/types/ActionType';
 import { ActionViewType } from 'twenty-shared/types';
 import { msg } from '@lingui/core/macro';
-import { IconSparkles, IconScan } from 'twenty-ui/display';
+import { IconSearch, IconSparkles } from 'twenty-ui/display';
 
 import { AnalyzeEmailMessageSingleRecordAction } from '@/action-menu/actions/record-actions/single-record/stc-email-message-actions/components/AnalyzeEmailMessageSingleRecordAction';
 import { SummarizeEmailMessageSingleRecordAction } from '@/action-menu/actions/record-actions/single-record/stc-email-message-actions/components/SummarizeEmailMessageSingleRecordAction';
@@ -37,7 +37,7 @@ export const STC_EMAIL_MESSAGE_ACTIONS_CONFIG =
         description: msg`Classify the email and extract STC references.`,
         isPinned: true,
         position: 4,
-        Icon: IconScan,
+        Icon: IconSearch,
         type: ActionType.Standard,
         scope: ActionScope.RecordSelection,
         shouldBeRegistered: ({ selectedRecord }) => !!selectedRecord,
