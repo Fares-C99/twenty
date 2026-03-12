@@ -16,7 +16,6 @@ type EmailMessageInsight = {
   stcRefs: string[];
 };
 
-const SENTENCE_BREAK = /(?<=[.!?])\s+/;
 const REF_MATCH = /\b[A-Z0-9][A-Z0-9/-]{3,}\b/g;
 
 const CATEGORY_RULES: Array<{
@@ -119,8 +118,7 @@ const buildSummary = ({
   fromName: string;
   subject: string;
 }) => {
-  const excerpt = bodyText
-    .split(SENTENCE_BREAK)
+  const excerpt = (bodyText.match(/[^.!?]+[.!?]?/g) ?? [])
     .map((sentence) => sentence.trim())
     .filter((sentence) => sentence.length > 0)
     .slice(0, 2)
