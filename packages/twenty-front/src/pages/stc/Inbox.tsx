@@ -13,8 +13,8 @@ import {
   IconChevronRight,
   IconFilter,
   IconInbox,
-  IconMailOff,
   IconMail,
+  IconMailX,
   IconSend,
   IconShield,
   Info,
@@ -218,7 +218,7 @@ export const Inbox = () => {
                 <CardContent>
                   <StyledRow>
                     <StyledIconContainer>
-                      <IconMailOff size={16} />
+                      <IconMailX size={16} />
                     </StyledIconContainer>
                     <StyledTextContainer>
                       <StyledLabel>{t`Native mailbox setup disabled for STC`}</StyledLabel>
