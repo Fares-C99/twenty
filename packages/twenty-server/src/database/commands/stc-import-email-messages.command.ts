@@ -60,6 +60,7 @@ type StcEmailMessageImportPayload = {
 };
 
 type EmailRecordInput = {
+  name: string;
   subject: string;
   fromAddress: {
     primaryEmail: string | undefined;
@@ -265,6 +266,7 @@ const normalizePayload = (
   }
 
   return {
+    name: normalizeString(payload.subject) ?? '(No subject)',
     subject: normalizeString(payload.subject) ?? '(No subject)',
     fromAddress: {
       primaryEmail: normalizedFromAddress.email,

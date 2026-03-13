@@ -92,7 +92,11 @@ type FlatMaps = {
 };
 
 type WorkspaceMetadataConfig = {
-  objects: { seed: ObjectMetadataSeed; fields?: FieldMetadataSeed[] }[];
+  objects: {
+    seed: ObjectMetadataSeed;
+    fields?: FieldMetadataSeed[];
+    labelIdentifierFieldName?: string;
+  }[];
   fields: { objectName: string; seeds: FieldMetadataSeed[] }[];
   morphRelations?: { objectName: string; seeds: MorphRelationSeed[] }[];
   // Junction fields create relations to junction objects (inverses auto-created)
@@ -109,6 +113,7 @@ const STC_OBJECTS: WorkspaceMetadataConfig['objects'] = [
   {
     seed: EMAIL_MESSAGE_CUSTOM_OBJECT_SEED,
     fields: EMAIL_MESSAGE_CUSTOM_FIELD_SEEDS,
+    labelIdentifierFieldName: 'subject',
   },
   {
     seed: ATTACHMENT_CUSTOM_OBJECT_SEED,
@@ -319,6 +324,14 @@ export class DevSeederMetadataService {
           fieldMetadataSeeds: obj.fields,
         });
       }
+
+      if (isDefined(obj.labelIdentifierFieldName)) {
+        await this.seedObjectLabelIdentifier({
+          workspaceId,
+          objectMetadataNameSingular: obj.seed.nameSingular,
+          fieldName: obj.labelIdentifierFieldName,
+        });
+      }
     }
 
     for (const fieldConfig of config.fields) {
@@ -328,6 +341,48 @@ export class DevSeederMetadataService {
         fieldMetadataSeeds: fieldConfig.seeds,
       });
     }
+  }
+
+  private async seedObjectLabelIdentifier({
+    workspaceId,
+    objectMetadataNameSingular,
+    fieldName,
+  }: {
+    workspaceId: string;
+    objectMetadataNameSingular: string;
+    fieldName: string;
+  }): Promise<void> {
+    const objectMetadata =
+      await this.objectMetadataService.findOneWithinWorkspace(workspaceId, {
+        where: { nameSingular: objectMetadataNameSingular },
+      });
+
+    if (!isDefined(objectMetadata)) {
+      throw new Error(
+        `Object metadata not found for: ${objectMetadataNameSingular}`,
+      );
+    }
+
+    const labelField = objectMetadata.fields.find(
+      (fieldMetadata) => fieldMetadata.name === fieldName,
+    );
+
+    if (!isDefined(labelField)) {
+      throw new Error(
+        `Label identifier field not found for: ${objectMetadataNameSingular}.${fieldName}`,
+      );
+    }
+
+    await this.objectMetadataService.updateOneObject({
+      workspaceId,
+      updateObjectInput: {
+        id: objectMetadata.id,
+        update: {
+          labelIdentifierFieldMetadataId: labelField.id,
+          isLabelSyncedWithName: false,
+        },
+      },
+    });
   }
 
   private async seedCustomObject({

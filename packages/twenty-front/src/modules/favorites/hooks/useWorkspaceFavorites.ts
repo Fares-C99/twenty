@@ -12,6 +12,23 @@ import { useMemo } from 'react';
 import { FieldMetadataType } from '~/generated-metadata/graphql';
 import { usePrefetchedFavoritesData } from './usePrefetchedFavoritesData';
 
+const HIDDEN_STC_WORKSPACE_FAVORITES = new Set([
+  'conversation',
+  'emailMessage',
+  'stcAttachment',
+  'dealConversation',
+  'businessDocument',
+  'documentLine',
+  'referenceCounter',
+  'stcPayment',
+  'cheque',
+  'traite',
+  'stcBankAccount',
+  'senderPolicy',
+  'unsubscribeAttempt',
+  'stcTimelineEvent',
+]);
+
 export const useWorkspaceFavorites = () => {
   const { workspaceFavorites } = usePrefetchedFavoritesData();
   const coreViews = useAtomStateValue(coreViewsState);
@@ -76,7 +93,8 @@ export const useWorkspaceFavorites = () => {
 
   const activeNonSystemObjectMetadataItemsInWorkspaceFavorites =
     activeNonSystemObjectMetadataItems.filter((item) =>
-      favoriteViewObjectMetadataIds.has(item.id),
+      favoriteViewObjectMetadataIds.has(item.id) &&
+      !HIDDEN_STC_WORKSPACE_FAVORITES.has(item.nameSingular),
     );
 
   return {
