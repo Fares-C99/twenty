@@ -26,7 +26,7 @@ export const AnalyzeEmailMessageSingleRecordAction = () => {
     }
 
     try {
-      const { aiCategory, aiSummary, stcRefs } =
+      const { aiCategory, aiSummary, mailState, needsReview, stcRefs } =
         buildEmailMessageInsights(emailMessage);
 
       await updateOneRecord({
@@ -35,6 +35,8 @@ export const AnalyzeEmailMessageSingleRecordAction = () => {
         updateOneRecordInput: {
           aiCategory,
           aiSummary,
+          mailState,
+          needsReview,
           stcRefs,
         },
       });

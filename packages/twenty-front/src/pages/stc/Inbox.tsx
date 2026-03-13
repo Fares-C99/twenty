@@ -1,31 +1,22 @@
-import { type ConnectedAccount } from '@/accounts/types/ConnectedAccount';
-import { currentWorkspaceMemberState } from '@/auth/states/currentWorkspaceMemberState';
 import { useFilteredObjectMetadataItems } from '@/object-metadata/hooks/useFilteredObjectMetadataItems';
-import { useGenerateDepthRecordGqlFieldsFromObject } from '@/object-record/graphql/record-gql-fields/hooks/useGenerateDepthRecordGqlFieldsFromObject';
-import { useFindManyRecords } from '@/object-record/hooks/useFindManyRecords';
-import { SettingsAccountsConnectedAccountsListCard } from '@/settings/accounts/components/SettingsAccountsConnectedAccountsListCard';
-import { SettingsAccountsListEmptyStateCard } from '@/settings/accounts/components/SettingsAccountsListEmptyStateCard';
-import { SettingsAccountsMessageChannelsContainer } from '@/settings/accounts/components/SettingsAccountsMessageChannelsContainer';
 import { PageBody } from '@/ui/layout/page/components/PageBody';
 import { PageContainer } from '@/ui/layout/page/components/PageContainer';
 import { PageHeader } from '@/ui/layout/page/components/PageHeader';
-import { useAtomStateValue } from '@/ui/utilities/state/jotai/hooks/useAtomStateValue';
 import { styled } from '@linaria/react';
 import { t } from '@lingui/core/macro';
+import { AppPath } from 'twenty-shared/types';
+import { getAppPath } from 'twenty-shared/utils';
 import {
-  AppPath,
-  CoreObjectNameSingular,
-  SettingsPath,
-} from 'twenty-shared/types';
-import { getAppPath, getSettingsPath } from 'twenty-shared/utils';
-import {
+  Callout,
   H2Title,
   type IconComponent,
   IconChevronRight,
+  IconFilter,
   IconInbox,
+  IconMailOff,
   IconMail,
-  IconMailCog,
-  IconPlugConnected,
+  IconSend,
+  IconShield,
   Info,
 } from 'twenty-ui/display';
 import { Card, CardContent, Section } from 'twenty-ui/layout';
@@ -104,35 +95,16 @@ type MailboxLink = {
   key: string;
   label: string;
   description: string;
-  to: string;
+  to?: string;
   Icon: IconComponent;
 };
 
 export const Inbox = () => {
-  const currentWorkspaceMember = useAtomStateValue(currentWorkspaceMemberState);
   const { findActiveObjectMetadataItemByNamePlural } =
     useFilteredObjectMetadataItems();
 
   const emailMessagesObjectMetadataItem =
     findActiveObjectMetadataItemByNamePlural('emailMessages');
-
-  const { recordGqlFields } = useGenerateDepthRecordGqlFieldsFromObject({
-    objectNameSingular: CoreObjectNameSingular.ConnectedAccount,
-    depth: 1,
-    shouldOnlyLoadRelationIdentifiers: false,
-  });
-
-  const { records: connectedAccounts, loading: isLoadingConnectedAccounts } =
-    useFindManyRecords<ConnectedAccount>({
-      objectNameSingular: CoreObjectNameSingular.ConnectedAccount,
-      filter: {
-        accountOwnerId: {
-          eq: currentWorkspaceMember?.id,
-        },
-      },
-      recordGqlFields,
-      skip: !currentWorkspaceMember?.id,
-    });
 
   const mailboxLinks: MailboxLink[] = [
     emailMessagesObjectMetadataItem
@@ -147,19 +119,17 @@ export const Inbox = () => {
         }
       : null,
     {
-      key: 'accountsEmails',
-      label: t`Email channel settings`,
-      description: t`Manage folders, visibility, auto-creation, and sync behavior for each connected mailbox.`,
-      to: getSettingsPath(SettingsPath.AccountsEmails),
-      Icon: IconMailCog,
+      key: 'transport',
+      label: t`Shared transport`,
+      description: t`Inbound mail is handled by the shared STC backend transport. Outbound replies should also stay on the shared transport, not on personal connected accounts.`,
+      Icon: IconSend,
     },
     {
-      key: 'accounts',
-      label: t`Connected accounts`,
-      description: t`Connect Outlook, Google, or IMAP/SMTP accounts using Twenty's native provider flow.`,
-      to: getSettingsPath(SettingsPath.Accounts),
-          Icon: IconPlugConnected,
-        },
+      key: 'triage',
+      label: t`Business triage`,
+      description: t`Every incoming message should be classified into commercial, operational, newsletter, or junk before the inbox becomes a working queue.`,
+      Icon: IconFilter,
+    },
   ].filter((link): link is MailboxLink => link !== null);
 
   return (
@@ -171,17 +141,42 @@ export const Inbox = () => {
             <Section>
               <H2Title
                 title={t`Mailbox`}
-                description={t`Use Twenty's native account and message-channel flow: connect a provider, sync messages, then work from Email Messages.`}
+                description={t`STC uses one shared mailbox. Message receive and send are backend-managed, while Twenty stays focused on triage, qualification, and business follow-up.`}
+              />
+              <Callout
+                variant="info"
+                title={t`Connected Accounts are not the STC path`}
+                description={t`Do not configure Outlook, Google, or IMAP/SMTP accounts here for the STC mailbox. Planet receive is POP-based and sending is handled outside Twenty's native mailbox stack.`}
+                Icon={IconShield}
               />
               <Card fullWidth rounded>
                 {mailboxLinks.map((link, index) => (
                   <StyledLinkContainer key={link.key}>
-                    <UndecoratedLink to={link.to} fullWidth>
-                      <CardContent
-                        divider={index < mailboxLinks.length - 1}
-                        isClickable
-                        hasHoverHighlight
-                      >
+                    {link.to ? (
+                      <UndecoratedLink to={link.to} fullWidth>
+                        <CardContent
+                          divider={index < mailboxLinks.length - 1}
+                          isClickable
+                          hasHoverHighlight
+                        >
+                          <StyledRow>
+                            <StyledIconContainer>
+                              <link.Icon size={16} />
+                            </StyledIconContainer>
+                            <StyledTextContainer>
+                              <StyledLabel>{link.label}</StyledLabel>
+                              <StyledDescription>
+                                {link.description}
+                              </StyledDescription>
+                            </StyledTextContainer>
+                            <StyledRightContainer>
+                              <IconChevronRight size={16} />
+                            </StyledRightContainer>
+                          </StyledRow>
+                        </CardContent>
+                      </UndecoratedLink>
+                    ) : (
+                      <CardContent divider={index < mailboxLinks.length - 1}>
                         <StyledRow>
                           <StyledIconContainer>
                             <link.Icon size={16} />
@@ -192,12 +187,9 @@ export const Inbox = () => {
                               {link.description}
                             </StyledDescription>
                           </StyledTextContainer>
-                          <StyledRightContainer>
-                            <IconChevronRight size={16} />
-                          </StyledRightContainer>
                         </StyledRow>
                       </CardContent>
-                    </UndecoratedLink>
+                    )}
                   </StyledLinkContainer>
                 ))}
               </Card>
@@ -207,28 +199,36 @@ export const Inbox = () => {
           <StyledSectionContainer>
             <Section>
               <H2Title
-                title={t`Accounts`}
-                description={t`This is the provider layer. Connect the mailbox here first; the Inbox is only useful after an account is syncing.`}
+                title={t`Visible Inbox`}
+                description={t`The visible inbox should only contain business mail. Newsletters and junk stay out of the main queue and require explicit review.`}
               />
-              {isLoadingConnectedAccounts ? (
-                <Info text={t`Loading connected accounts...`} />
-              ) : connectedAccounts.length > 0 ? (
-                <SettingsAccountsConnectedAccountsListCard
-                  accounts={connectedAccounts}
-                />
-              ) : (
-                <SettingsAccountsListEmptyStateCard />
-              )}
+              <Info
+                text={t`Target mail states: COMMERCIAL and OPERATIONAL are visible by default. NEWSLETTER and JUNK stay outside the working inbox.`}
+              />
             </Section>
           </StyledSectionContainer>
 
           <StyledSectionContainer>
             <Section>
               <H2Title
-                title={t`Channel Rules`}
-                description={t`Adjust visibility, auto-creation, and folder import rules for the active email channel without leaving the inbox module.`}
+                title={t`Next Step`}
+                description={t`The next backend slice is POP ingestion into Email Messages with automatic mail-state classification, so the STC shared mailbox appears here without any user account setup.`}
               />
-              <SettingsAccountsMessageChannelsContainer />
+              <Card fullWidth rounded>
+                <CardContent>
+                  <StyledRow>
+                    <StyledIconContainer>
+                      <IconMailOff size={16} />
+                    </StyledIconContainer>
+                    <StyledTextContainer>
+                      <StyledLabel>{t`Native mailbox setup disabled for STC`}</StyledLabel>
+                      <StyledDescription>
+                        {t`Planet POP receive and Brevo/backend send are the supported transport path. This page is now the shared mailbox hub, not a personal account setup flow.`}
+                      </StyledDescription>
+                    </StyledTextContainer>
+                  </StyledRow>
+                </CardContent>
+              </Card>
             </Section>
           </StyledSectionContainer>
         </StyledPageContent>

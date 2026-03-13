@@ -13,6 +13,13 @@ type EmailMessageInsight = {
     | 'COMPLAINT'
     | 'OTHER';
   aiSummary: string;
+  mailState:
+    | 'UNCLASSIFIED'
+    | 'COMMERCIAL'
+    | 'OPERATIONAL'
+    | 'NEWSLETTER'
+    | 'JUNK';
+  needsReview: boolean;
   stcRefs: string[];
 };
 
@@ -54,6 +61,29 @@ const CATEGORY_RULES: Array<{
     category: 'COMPLAINT',
     keywords: ['complaint', 'claim', 'reclamation', 'problem', 'issue', 'urgent'],
   },
+];
+
+const NEWSLETTER_KEYWORDS = [
+  'unsubscribe',
+  'newsletter',
+  'mailing list',
+  'view in browser',
+  'campaign',
+  'promo',
+  'promotion',
+  'black friday',
+];
+
+const JUNK_KEYWORDS = [
+  'bitcoin',
+  'crypto signal',
+  'loan approved',
+  'forex',
+  'casino',
+  'winner',
+  'urgent assistance',
+  'investment opportunity',
+  'viagra',
 ];
 
 const normalizeWhitespace = (value: string) =>
@@ -107,6 +137,56 @@ const guessCategory = (content: string): EmailMessageInsight['aiCategory'] => {
   return normalizedContent.length > 0 ? 'INQUIRY' : 'OTHER';
 };
 
+const guessMailState = ({
+  aiCategory,
+  content,
+  fromAddress,
+}: {
+  aiCategory: EmailMessageInsight['aiCategory'];
+  content: string;
+  fromAddress: string;
+}): EmailMessageInsight['mailState'] => {
+  const normalizedContent = content.toLowerCase();
+  const normalizedFromAddress = fromAddress.toLowerCase();
+
+  if (
+    JUNK_KEYWORDS.some((keyword) =>
+      normalizedContent.includes(keyword.toLowerCase()),
+    )
+  ) {
+    return 'JUNK';
+  }
+
+  if (
+    NEWSLETTER_KEYWORDS.some((keyword) =>
+      normalizedContent.includes(keyword.toLowerCase()),
+    ) ||
+    normalizedFromAddress.includes('newsletter') ||
+    normalizedFromAddress.includes('no-reply') ||
+    normalizedFromAddress.includes('noreply')
+  ) {
+    return 'NEWSLETTER';
+  }
+
+  if (
+    ['QUOTE_REQUEST', 'NEGOTIATION', 'ORDER', 'SPARE_PARTS', 'INQUIRY'].includes(
+      aiCategory,
+    )
+  ) {
+    return 'COMMERCIAL';
+  }
+
+  if (
+    ['PAYMENT', 'SHIPPING', 'TECHNICAL_SUPPORT', 'COMPLAINT'].includes(
+      aiCategory,
+    )
+  ) {
+    return 'OPERATIONAL';
+  }
+
+  return normalizedContent.length > 0 ? 'UNCLASSIFIED' : 'JUNK';
+};
+
 const buildSummary = ({
   bodyText,
   fromName,
@@ -158,15 +238,23 @@ export const buildEmailMessageInsights = (
   );
   const bodyText = toPlainText(record.bodyText);
   const combinedContent = normalizeWhitespace(`${subject} ${bodyText}`);
+  const aiCategory = guessCategory(combinedContent);
+  const mailState = guessMailState({
+    aiCategory,
+    content: combinedContent,
+    fromAddress,
+  });
 
   return {
-    aiCategory: guessCategory(combinedContent),
+    aiCategory,
     aiSummary: buildSummary({
       bodyText,
       fromAddress,
       fromName,
       subject,
     }),
+    mailState,
+    needsReview: mailState === 'UNCLASSIFIED',
     stcRefs: extractReferences(
       combinedContent,
       Array.isArray(record.stcRefs)

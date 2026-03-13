@@ -85,6 +85,39 @@ export const EMAIL_MESSAGE_CUSTOM_FIELD_SEEDS: FieldMetadataSeed[] = [
   },
   {
     type: FieldMetadataType.SELECT,
+    name: 'mailState',
+    label: 'Mail State',
+    icon: 'IconFilter',
+    options: [
+      {
+        label: 'Unclassified',
+        value: 'UNCLASSIFIED',
+        position: 0,
+        color: 'gray',
+      },
+      {
+        label: 'Commercial',
+        value: 'COMMERCIAL',
+        position: 1,
+        color: 'blue',
+      },
+      {
+        label: 'Operational',
+        value: 'OPERATIONAL',
+        position: 2,
+        color: 'green',
+      },
+      {
+        label: 'Newsletter',
+        value: 'NEWSLETTER',
+        position: 3,
+        color: 'orange',
+      },
+      { label: 'Junk', value: 'JUNK', position: 4, color: 'red' },
+    ],
+  },
+  {
+    type: FieldMetadataType.SELECT,
     name: 'direction',
     label: 'Direction',
     icon: 'IconArrowsLeftRight',
@@ -135,6 +168,13 @@ export const EMAIL_MESSAGE_CUSTOM_FIELD_SEEDS: FieldMetadataSeed[] = [
     name: 'stcRefs',
     label: 'STC References',
     icon: 'IconTag',
+  },
+  {
+    type: FieldMetadataType.BOOLEAN,
+    name: 'needsReview',
+    label: 'Needs Review',
+    icon: 'IconAlertCircle',
+    defaultValue: true,
   },
   {
     type: FieldMetadataType.BOOLEAN,
