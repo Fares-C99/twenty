@@ -15,6 +15,7 @@ import { SEED_APPLE_WORKSPACE_ID } from 'src/engine/workspace-manager/dev-seeder
 
 type ImportEmailMessagesCommandOptions = {
   filePath: string;
+  file?: string;
   workspaceId: string;
   mailbox?: string;
 };
@@ -359,6 +360,12 @@ export class StcImportEmailMessagesCommand extends CommandRunner {
     _passedParams: string[],
     options: ImportEmailMessagesCommandOptions,
   ): Promise<void> {
+    const filePathOption = options.filePath ?? options.file;
+
+    if (!filePathOption) {
+      throw new Error('Missing required --file option');
+    }
+
     const workspace = await this.workspaceRepository.findOne({
       where: { id: options.workspaceId },
     });
@@ -377,7 +384,7 @@ export class StcImportEmailMessagesCommand extends CommandRunner {
       );
     }
 
-    const filePath = resolve(process.cwd(), options.filePath);
+    const filePath = resolve(process.cwd(), filePathOption);
     const rawFile = await readFile(filePath, 'utf8');
     const parsedFile = JSON.parse(rawFile) as unknown;
     const payloads = extractMessages(parsedFile);
