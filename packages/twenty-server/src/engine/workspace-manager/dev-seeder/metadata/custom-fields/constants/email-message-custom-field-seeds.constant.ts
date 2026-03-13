@@ -34,7 +34,7 @@ export const EMAIL_MESSAGE_CUSTOM_FIELD_SEEDS: FieldMetadataSeed[] = [
     icon: 'IconUsers',
   },
   {
-    type: FieldMetadataType.RICH_TEXT,
+    type: FieldMetadataType.RICH_TEXT_V2,
     name: 'bodyText',
     label: 'Body',
     icon: 'IconFileText',
@@ -131,6 +131,7 @@ export const EMAIL_MESSAGE_CUSTOM_FIELD_SEEDS: FieldMetadataSeed[] = [
     name: 'headerMessageId',
     label: 'Message ID',
     icon: 'IconId',
+    isUnique: true,
   },
   {
     type: FieldMetadataType.TEXT,

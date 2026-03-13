@@ -5,6 +5,7 @@ import { CronRegisterAllCommand } from 'src/database/commands/cron-register-all.
 import { DataSeedWorkspaceCommand } from 'src/database/commands/data-seed-dev-workspace.command';
 import { ListOrphanedWorkspaceEntitiesCommand } from 'src/database/commands/list-and-delete-orphaned-workspace-entities.command';
 import { ConfirmationQuestion } from 'src/database/commands/questions/confirmation.question';
+import { StcImportEmailMessagesCommand } from 'src/database/commands/stc-import-email-messages.command';
 import { UpgradeVersionCommandModule } from 'src/database/commands/upgrade-version-command/upgrade-version-command.module';
 import { TypeORMModule } from 'src/database/typeorm/typeorm.module';
 import { ApiKeyModule } from 'src/engine/core-modules/api-key/api-key.module';
@@ -15,6 +16,7 @@ import { EventLogCleanupModule } from 'src/engine/core-modules/event-logs/cleanu
 import { FeatureFlagModule } from 'src/engine/core-modules/feature-flag/feature-flag.module';
 import { FileModule } from 'src/engine/core-modules/file/file.module';
 import { PublicDomainModule } from 'src/engine/core-modules/public-domain/public-domain.module';
+import { RecordCrudModule } from 'src/engine/core-modules/record-crud/record-crud.module';
 import { WorkspaceEntity } from 'src/engine/core-modules/workspace/workspace.entity';
 import { WorkspaceModule } from 'src/engine/core-modules/workspace/workspace.module';
 import { DataSourceModule } from 'src/engine/metadata-modules/data-source/data-source.module';
@@ -51,6 +53,7 @@ import { AutomatedTriggerModule } from 'src/modules/workflow/workflow-trigger/au
     DataSourceModule,
     WorkspaceCacheStorageModule,
     ApiKeyModule,
+    RecordCrudModule,
     FeatureFlagModule,
     WorkspaceCleanerModule,
     WorkspaceMigrationModule,
@@ -66,6 +69,7 @@ import { AutomatedTriggerModule } from 'src/modules/workflow/workflow-trigger/au
     CronRegisterAllCommand,
     ListOrphanedWorkspaceEntitiesCommand,
     GenerateApiKeyCommand,
+    StcImportEmailMessagesCommand,
   ],
 })
 export class DatabaseCommandModule {}
